@@ -1,0 +1,259 @@
+\documentclass[a4paper,12pt]{article}
+
+\begin{document}
+
+\begin{center}
+LECTURE : 1  \\
+   
+
+\end{center}
+Chapter: Flow Network \hspace*{55mm}Date : 15/01/2014 \\Submitted By : Hatwar Pradip    
+  \hspace*{43mm}Roll No : CS13M022
+
+
+
+		\paragraph*{ $1.$ Introduction :  \\}
+		{
+			The "flow" of the material at any point in the system is intuitively the rate at which the material moves. Flow networks can be used to model liquids flowing through pipes, parts through assembly lines, current through electrical networks, information through communication networks 
+		}
+
+		\paragraph*{2. What is a Flow Network$?$ \\ }{
+		
+		 A " Flow Network " is a road map as a directed graph in order to find the shortest path from one point to another. 
+		 
+		 Formally flow network is defined as : \\   
+		A flow network G = (V, E) is a directed graph in which each edge $(u,v) \in E$ has a nonnegative capacity $c(u, v) \geq 0$. If $(u,v)\notin E$, we assume that c(u, v) = 0. We distinguish two vertices in a flow network: a source s and a sink t. For convenience, we assume that every vertex lies on some path from the source to the sink. That is, for every vertex $v \in V$, there is a path  The graph is therefore connected, and $ |E| \geq |V| - 1 $.   \\   
+		Here, V and E be the total number of vertices and total number of edges in the flow network. 
+		}
+
+
+	\paragraph*{}
+	{
+	Let G = (V,E) be a flow network with a capacity function c. Let s be the source of the network, and let t be the sink. A flow in G is a real-valued function f : $V \times V \rightarrow $ that satisfies the following \underline{three properties\textit{}} :-  \\ \\
+	$1.$ Capacity constraint: For all $ u, v \in V $, we require $f(u, v) \leq c(u, v)$.  \\ 
+	$2.$  Skew symmetry: For all $u, v \in V$, we require f(u, v) = -f(v, u).  \\
+	$3.$ Flow conservation: For all $u \in V - {s, t}$, we require   \\ 
+	$\sum_{v \in V}^{} f(u, v) = 0 $ } 
+
+
+
+\paragraph*{ 2.1 Value of The Flow :\\} {
+The quantity f (u, v), which can be positive, zero, or negative, is called the flow from vertex u to vertex v. The value of a flow f is  \\
+$ |f| = \sum_{v \in V}^{} f(u, v) $    \\
+
+}
+
+
+
+		\paragraph*{2.3 Cuts of flow networks :  \\}
+		{  
+			A cut(A, B) of flow network G = (V, E) is a partition of V into A and B = V - A such that $ s \in A $ and $ t \in B $. If f is a flow, then the net flow across the cut(A, B) is defined to be f(A, B). The capacity of the cut(A, B) is c(A, B). A minimum cut of a network is a cut whose capacity is minimum over all cuts of the network.
+		}
+
+
+
+		\paragraph*{2.4 Properties of cuts of flow networks :   \\}
+		{
+				1. $ \sum_{ v \in V }^{} f(s, v) \leq \sum_{v \in V}^{}c(s, v) $    \\
+				2. $ \sum_{v \in V } f(s, v) = \sum_{v \in V }f(v,t)  $ \\
+				3. $ \forall A, B $ \\
+			  	$ A \bigcap B = V $  \\
+			 	 $ A \bigcup B = \emptyset $  \\
+			 	 $ s \in A  $ \\
+				  $ t \in B  $     \\ \\
+				  then $ f(A, B) = \sum_{x \in A }_{y \in B} f(x, y)$    \\
+				 $  = |f| $  \\
+				 $  = \sum f(s, v) $     \\
+			
+				4.$|f| \leq c(A, B)$   \\
+					    $ \leq \sum_{x \in A y \in B} c(x, y) $    \\
+					    $ |f| \leq min_{A, B}c(A, B)$
+					\\
+					\\
+					\\
+					
+					 
+		}
+
+$ \pagebreak $
+
+	\begin{center}
+	LECTURE : 2
+	\end{center}
+	Chapter: Flow Network \hspace*{55mm}Date : 17/01/2014
+	
+	\paragraph*{3. Residual Network : \\}
+	{
+	  The residual network consist of the edges that can admit more flow.    \\
+	   Let G = (V, E) be flow network with source s and sink t. Let f be the flow in G and suppose a pair of vertices $ u, v \in V $, the amount of additional flow that can be push from u to v before exceeding the capacity c(u, v) is a residual capacity of c(u, v) and it is represented as  $ c_{f}(u, v) $    \\
+	  
+	  The residual capacity is $  c_{f}(u, v) = c(u, v) - f(u, v) $   \\
+	  
+	  \textit{3.1 Lemma} : Let G = (V, E) be a flow network with source s and sink t and  f be a flow in G. Let $ G_{f} $ be the residual network of G induced by f, and f' be a flow in $ G_{f} $. Then f + f' is a flow in $ G_{f} $   \\
+	 	
+	}
+	
+	\paragraph*{3.2 Augmenting Path : \\}
+	{
+	    Definition[Augmented path] : An augmented path is a directed path from the node s to node t in the residual network $ G_{f} $  \\
+	    	    
+	    In augmented path, the capacity of every edge  $ c(u,v) > 0 $   \\
+	    In $ G_{f} $, if there is no s to t augmented path then c(u, v) = f(u, v) = 0    \\ 
+	
+	}
+	
+	
+	\paragraph*{3.3 Residual Capacity :  \\}
+	{
+	    The maximum amount by which we can increase the flow on each edge in an augmenting path p. The residual capacity of p is given by   \\
+	    
+	    $ c_{f}(p) = min{c_{f}(u, v) : (u, v) is on p } $     \\
+	    
+	    Let, G = (V, E) be a flow network, let f be a  flow in G and let p be an augmenting path in $ G_{f} $. Define a  function $ f_{p} : V \times V \rightarrow R $   \\
+	    
+	   
+	 
+	    if (v, u) is on p   then $ f_{p}(u, v) = -c_{p} $
+	    
+	    if (u, v) is on p   then $ f_{p}(u, v) = c_{p}   $    \\
+	    
+	    otherwise 0   \\ 
+	    
+	    Then $ f_{p} $ is a flow in $ G_{f} $  with value $ |f_{p}| = c_{f}(p) > 0 $    \\
+	    	    
+	
+	}
+	
+	
+	
+	\paragraph*{4. Max flow min cut theorem :  \\}
+	{
+	     If f is a flow in flow network G = (V, E) with source s and sink t, then the following conditions are equivalent \\
+	             $ 1) $ f is maximum flow in G   \\
+	             $ 2) $ The residual network $ G_{f} $ contains no augmenting paths  \\
+	             $ 3)   |f| = c(S, T)  for some cut(S, T) of G $    \\
+	
+	
+	}
+	
+	
+\paragraph*{4.1 Corollary : }
+{
+       The value of any flow f in a flow network G is bounded by the capacity of any cut of G.   \\
+       
+       Proof : Let $ G = (V, E) $ be the flow network and the V and E be the vertices and edges in the flow network. Let V is partitioned into the disjoint vertex set A and set $ V - A $. Then A and V-A be the cut of G.  \\
+       
+       Let f be the any flow in a flow network G with source s and sink t. The source $ s \in A $ and sink $ t \in V-A $. Then the net flow across the cut$ (A,V - A) $is   \\
+                $ |f| = f(A, V - A)  $   \\
+               
+                      = $ \sum_{x \in A}\sum_{y \in V - A}f(x,y) $    \\
+                      
+                      $ \leq \sum_{x \in A}\sum_{y \in V - A}c(x,y) $    \\
+                      = c(A, V-A)   \\
+                      
+                      Hence proved. 
+                                                         
+}	
+
+ \pagebreak
+
+	    	\begin{center}
+	    	LECTURE : 3
+	    	\end{center}
+	    	Chapter: Flow Network \hspace*{55mm}Date : 21/01/2014
+	    
+	    \paragraph*{5. Ford Fulkerson Template algorithm for Maximum flow \\ }
+	    {
+	           STEPS :
+	           
+	           1. Initialize the flow f to 0 for all pairs of vertices.   \\
+	           2. Iterate  as long as there is a s to t augmenting path in the residual network $ G_{f} $ \\
+	                2.1 update the flow  \\
+	           3. update the $ G_{f} $     \\ \\
+	           
+	           
+	           
+	           
+	           \textbf{Running Time} Ford Fulkerson algorithm is  $ (E|f^{*}|) $ where f is the maximum flow found by the algorithm and the step2 will iterate at most $ |f^{*}| $ times since flow value increases by at least one unit in each iteration.
+	    
+	    
+	    
+	    }
+	    
+	    
+	    
+	    \paragraph*{6. Reduction of bipartite matching problem to flow in a network :- \\ }
+	    {
+	           Maximum bipartite-matching problem :  \\
+	           
+	           Given an undirected graph G = (V, E), a matching is a subset of edges $ M\subseteq E$ such that all vertices $ v \in V $, at most one edge of M  is  incident on v. A vetex $ v \in V $ is matched by matching M if some edge in M is incident on v; otherwise v is unmatched. A maximum matching  is a matching of maaximum  cardinality M such that for any matching M', we have $ |M| \geq |M'|  $  \\
+	           \\
+	           
+	           
+	           
+	           Reduction of bipartite matching problem to flow in a network :  The vertex set is partitioned into the disjoint sets V1 and V2. \\
+	           i.e. $ V1 \cap V2 = \emptyset$ and $ V1 \cup V2 = V $  \\
+	           
+	           A matching is a subset of edges $ M \subseteq E $ such that for vertices $ v \in V $ at most one edge of M is incident on v.  \\
+	           Therefore any two edges $ e1, e2 \in M  $ satisfies $ e1 \cap e2 = \emptyset$     \\
+	           
+	           Consider corresponding flow network G' = (V' , E') for the bipartite graph. Let source s and sink t be new vertices i.e. $ s, t \notin V $. Let $ V' = V \cup {s, t} $  \\
+	           
+	           Add the directed edges from source s to all vertices in V1 and from vertex set V2 to t into the bipartite graph.   \\
+	           
+	           
+	                
+	           
+	           The corresponding flow network G' with maximum flow. Each edge has unit capacity. Shaded edges have  a flow of 1 and all other edges carry no flow. The shaded edges from V1 to V2 correspond to those in a maximum matching of the bipartite graph.  \\  \\
+	           
+	           Definition[Integer-valued flow] : A flow on a flow network G = (V, E) is said to be integer valued if f(u, v) is an integer for all $ (u, v) \in V \times V $    
+	      
+	       	 
+	    
+	    }
+	    
+	    
+	    \paragraph*{6.1 Claim :}
+	    {
+	          If f is an integer-valued flow in G' then there is a matching M in G with cardinality $ |M| = |f| $   \\
+	          
+	          
+	          Proof : Let f be an integer-valued flow in G' and let $ M = {(u, v): u \in V1, v \in V2 and f(u, v) > 0} $  \\
+	          
+	          For every matched vertex $ u \in V1 $ we have f(s, u) = 1 and every edge $ (u, v) \in E-M $ we have f(u, v) = 0   \\
+	          
+	          $              |M| = f(V1, V2) $   \\
+	                        $|M| = f(V1, V') - f(V1, V1) - f(V1, s) - f(v1, t) $ \\
+	                           
+	                           By flow conservation property f(V1, V') = 0\\
+	                           By skew symmetry property -f(V1, s) = f(s, V1)  \\
+	                           There are no edges from V1 to t $  f(V1, t) = 0 $  \\
+	                  
+	                  $  |M| = f(s, V1)$
+	                                 $ =f(s, V') $
+	                                $ |M|   = |f| $
+	                                
+	                                Hence proved.   \\
+	          
+	    
+	   
+	   
+	    }
+	    
+	      \paragraph*{7. Edmonds-Karp algorithm : \\}
+	                      {
+	                            Edmonds-Karp is a polynomial algorithm to find the maximum flow. The running time of this algorithm is depends only on the number of vertices in the flow network.\\
+	                            Edmonds-Karp algorithm selects the shortest path s to t in each iteration. Here,the path length is counted as the number of edges in the residual graph. The range of the shortest path is always between 1 to n-1(n=total number of vertices in the graph).
+	                            
+	                            7.1 Theorem : \\
+	                            If the Edmonds-Karp algorithm is run on a flow network G = (V, E) with source s and sink t, then for all vertices $ v \in V - {s, t} $, the shortest-path distance $ δf (s, v) $ in the residual network Gf increases monotonically with each flow augmentation.  \\  
+	                            7.2 Theorem : \\
+	             	            If the Edmonds-Karp algorithm is run on a flow network G = (V, E) with source s and sink t, then the total number of flow augmentations performed by the algorithm is $ O(V, E) $.
+	             	            
+	             	            There are O(E) pairs of vertices that can have an edge between them in a residual graph, the total number of critical edges during the entire execution of the Edmonds-Karp algorithm is O(V E). Since each iteration  can be implemented in O(E) time when the augmenting path is found by breadth-first search, the total running time of the Edmonds-Karp algorithm is O(VE^2). 
+	             	            
+	                   }
+	    
+	    
+	    
+\end{document}
