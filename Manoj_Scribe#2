@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,algorithm,algorithmic,algorithm}
+
+
+
+\begin{document}
+\hrule
+\vspace{2mm}
+
+{\sf CS6841: Adv. Algo \hfill Name: MANOJ KALASKAR}
+\vspace{3mm}\\ 
+
+{\sf Scribe-\#2 $10^{th}-14^{th}$ March \hfill Roll No: CS13M027}
+\vspace{3mm}
+
+\hrule
+
+\noindent
+\vspace{7mm}
+
+\textbf{1. Coloring 3-Colorable Dense Graph}\\
+
+
+$Defination:$ 
+A graph is \underline {$\delta$-dense} if each vertex has degree atleast $\delta n$ for some constant $\delta > 0$.
+\newline
+
+$Theorem:$
+It is $NP-Hard$ to decide whether a graph can be colored using 3-colors or need $atleast$ $k$ colors for $k>3$.\\
+
+$Random$ $Sampling$:\\
+$Theorem:$ 
+With high probability, we can properly color any $\delta -dense$ 3-colorable graph.\\
+
+$Algorithm:$
+\begin{enumerate}
+\item Select random subset $S \subseteq V$ of $O($ln $n/\delta)$ nodes such that each node in $V \setminus S$ has neighbour in $S$;
+\item enumerate all possible 3-colorings of $S$;
+\item try to extend each 3-coloring of $S$ to a 3-coloring of $G$
+\end{enumerate}
+
+$Dominating Set:$\\
+$\delta \rightarrow $ min degree\\
+
+for an $\epsilon > 0$, $\delta \geq \epsilon n $ \\
+$\epsilon$:  not part of i/p; parameterizes the algo.\\
+
+$ D \rightarrow $ Dominating set\\
+Let $\chi_{D}$ be a valid 3-coloring of D.\\
+
+$\forall v \in V \setminus D$, there are only 2-possible colors for $v$ max.
+\newline
+\newline
+\noindent
+
+\begin{itemize}
+\item 
+If NO color possible, then continue to next coloring of $D$;\\
+\item If 1 color possible, put it and continue;\\
+\item If 2 color possible, say for $v$ $\{C_{v_{1}},C_{v_{2}} \};$\\
+\end{itemize}
+
+\newpage
+\noindent
+$List$ $2-Coloring:$\\
+
+Only 1 color for $v$,\\
+$(x_{c_{v_{1}}}$ $\lor$ $x_{c_{v_{2}}})$ $\land$ $(\neg x_{c_{v_{1}}}$ $\lor$ $\neg x_{c_{v_{2}}})$ \\
+
+and for each edge $e = (u,v)$\\
+
+$x_{c_{u_{1}}} \implies \neg x_{c_{v_{1}}}$ etc..\\
+
+It is similar to $2-SAT$ formula - we can find assignment in $polynomial$ time.\\
+
+To limit $|D|$, we will use Chernoff Bound: \\
+
+E[$|D|$] = $np$\\
+\noindent
+Probability of failure = $D$ is not dominating set (or) $|D|$ is large $(e^{\frac{-\delta^{2}}{3}np})$\\
+\noindent
+Pr($D$ is not dominating set) $\leq n(1-p)^{\delta +1}$ \\
+$\leq n(1-p)^{\epsilon n}$\\
+$\leq ne^{-pn\epsilon}$\\
+\newline
+\noindent
+Choose p = (c+1) ln n/n$\epsilon$ \& prob $\leq$ $1/n^{c}$ \\
+\noindent
+simultaniously choose $\delta$ to make probability failure low. Now our size of $D$ is $\approx$ ($\frac{c+1}{\epsilon}$)ln $n$ \\
+\noindent
+\newline
+So, Running Time: $n^{1/\epsilon}$ \\
+
+
+\textbf {2. Structure of LP: }
+\noindent
+\newline
+\newline
+\noindent
+Primal: \\
+
+\noindent
+min $c^{T}x$\\
+s.t. Ax $\geq$ b\\
+x $\geq$ 0 \\
+
+\noindent                    
+Dual: \\
+\noindent
+max $b^{T}y = y^{T}b$\\
+s.t. $A^{T} \leq c $ \\
+$y \geq 0$\\\\
+
+\noindent
+For x $P_{f}$ $\&$ y $D_{f}$\\
+\noindent
+$c^{T}x \geq b^{T}y$\\
+\noindent
+$\therefore$ min $c^{T}x \geq$ max $b^{T}y$\\
+
+\newpage
+\textbf {3. O($\sqrt n$ ) Coloring }:\\
+
+\begin{itemize}
+\item If $\Delta \leq \sqrt n $, use $\sqrt n$ + 1 colors.
+\item If $\Delta > \sqrt n $, choose such a vertex, its neighbour is $bipartite$(2-$colorable$) as $G$ is 3-colorable. 
+\item Use $Widgerson's$ Algo
+\item We end up in a graph of $\Delta \leq \sqrt n $
+\item Use $\sqrt n$ + 1 colors.
+\item $\therefore$ Colors $\leq 4\sqrt n$ = $O(\sqrt n)$ \\\\
+\end{itemize}
+
+Here is $Widgerson's$ Algorithm :\\
+
+PROCEDURE \textbf{\textit{Color}} $(G)$
+\begin{algorithm}
+%\caption{$Widgerson's$ Algorithm}
+\begin{algorithmic}[1]
+  \scriptsize \large
+  
+  \WHILE{$\Delta_{G} \geq \sqrt n $}
+ 
+  \STATE{ Pick $v \in V$} with $d(v) \geq \sqrt {n}$
+  \STATE{2-color its neighbourhood $N(v)=\{u | (u,v) \in E \}$}
+  \STATE{Never use already assigned colors again}
+  \STATE{Delete $N(v) \cup \{v\}$ from $G$}
+  \STATE{\textbf{\textit{Color}}$(G)$ }
+  \ENDWHILE
+  
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+
+
+\end{document}
