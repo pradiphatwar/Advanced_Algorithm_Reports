@@ -1,0 +1,183 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+
+
+\begin{document}
+\hrule
+\vspace{2mm}
+
+{\sf CS6841: Adv. Algo \hfill Name: MANOJ KALASKAR}
+\vspace{3mm}\\ 
+
+{\sf Scribe- $10^{th}-14^{th}$ Feb \hfill Roll No: CS13M027}
+\vspace{3mm}
+
+\hrule
+
+\vspace{4mm}
+
+\textbf{1. Edge coloring}\\
+
+$Defination$: \par
+ In a simple graph, assignment of colors to all edges such that no two edges who share a vertex have same color.\\
+
+Edge coloring problem ask, whether it is possible to color to do edge coloring using atmost $k$ different colors.\\
+
+$Defination$:\par
+ The minimum required number of colors for the edges of a given graph is called the chromatic index,$\chi$, of the graph.\\
+ 
+ 
+\textbf{$Vizing's$ $Theorem$:} \par
+  Edges of every undirected graph may be colored using a number of colors that is at most one larger than the maximum degree $\Delta$ of the graph i.e.\\
+
+\centerline {  $\Delta \leq \chi \leq \Delta + 1$}
+
+\vspace{5mm}
+\textbf{2. PTAS \& FPTAS}\\
+\par
+PTAS : Polynomial Time Approximation Scheme\\\\
+An algorithm which takes an instance of an optimization problem and a parameter $\epsilon > 0$ and, in polynomial time, produces a solution that is within a factor 1 + $\epsilon$ of being optimal for minimization problem and  1 - $\epsilon$ for maximization problem.\\\\
+The running time is required to be polynomial in $n$ for every fixed $\epsilon$ but can be different for different $\epsilon$. Thus an algorithm running in time $O(n^{1/\epsilon})$ or even $O(n^{exp(1/\epsilon)})$ counts as a PTAS.\\\\
+
+\par
+FPTAS : Fully Polynomial Time Approximation Scheme\\\\
+An algorithm which takes an instance of an optimization problem and a parameter $\epsilon > 0$ and, in polynomial time, produces a solution that is within a factor 1 + $\epsilon$ of being optimal for minimization problem and  1 - $\epsilon$ for maximization problem.\\\\
+
+The running time is only different in 1/$\epsilon$ as for FPTAS it must be in polynomial factor. So $O(n^{exp(1/\epsilon)})$ will not counts as a FPTAS but $O(n^{1/\epsilon})$ will.\\\\
+
+\par
+FPTAS for $0/1$ Knapsack :\\
+\begin{enumerate}
+\item Given $\epsilon > 0$, let $K= \frac {\epsilon P} {n}$ ,\\ where $n$ is the total number of objects and $P = maximum$  $profit$ $from$ $single$ $object$ $out$ $of$ $all$ $objects$.
+
+\item
+For each object $a_{i}$ define $p'(a_{i})$ = $\lfloor {\frac{p(a_{i})}{K}} \rfloor$ , \\
+where $p(a_{i})$ is the profit of object $a_{i}$.\\
+
+\item
+Using $p'(a_{i})$ as the new profit of the objects and dynamic programming algorithm, for which we will mention equation below, find most profitable set $S'$ and OUTPUT it.\\\\
+
+\end{enumerate}
+
+\par Dynamic Programming algorithm for $0/1$ Knapsack:\\
+
+%\begin{itemize}
+%\item
+$-$ Calculate $Opt(n,W)$ where $W$ is the weight limit of knapsack and
+\newline
+\[
+%\begin{centering}
+ Opt(n,w)  =  \begin{cases}
+    0 & \text{if $n$ = 0}\\
+    Opt(n-1,W) & \text{if $w_{i} > W$}\\
+    $max$  \{ Opt(n-1,w_{i})$ , $p'_{i}$ + $Opt(n-1,W-w_{i}) \}  & \text{if $w_{i}\leq W$ and update $W= W-w_{i}$}\\
+    
+  \end{cases} 
+ %\end{centering}
+  \]
+  
+ % \item
+$-$ Running Time: $O(\frac{n^{3}}{\epsilon})$
+  
+  %\end{itemize}
+  
+  \vspace{7mm}
+\textbf{3. LP \& ILP}\\
+
+  General Approch:
+  
+  \begin{enumerate}
+  \item 
+  Reduce Problem to integer program
+  \item
+  Relax the integrity contraint ,i.e. allow variables to take non integral values.
+  \item
+  Solve the resulting linear program to obtain fractional optimal solution.
+  \item
+  Round the fractional solution to obtain integral feasible solution.
+  
+  \end{enumerate}
+
+
+
+The integer program for SET COVER is the following:\\
+Let $x_{i}$ be an indicator variable for set $S_{i}$.\\
+Minimize
+\[  \sum_{i=1}^{k} x_{i}\cdot c(S_{i}) \]
+subject to
+\begin{eqnarray*}
+\sum_{i:j\in S_{i}}x_{i} & \geq & 1 \mbox{ for } j=1,2,\cdots,n\\
+x_{i} & \in & \{0,1\} \mbox{ for } i=1,2,\cdots,k 
+\end{eqnarray*}
+The corresponding LP-relaxation replaces $x_{i}\in \{0,1\}$ by
+$x_{i}\geq 0$  for each $i = 1,2,\cdots, k$. 
+Recall that $x_{i}\leq 1$ is unnecessary.\\
+
+
+
+Here is a deterministic rounding approximation algorithm for SET COVER that
+uses the above LP relaxation.
+Let $f_{j}$ be the frequency of element $j=1,2,\cdots,n$ 
+(that is, the number of sets $S_{i}$ that $j$ appears in).
+Let $f=  \max_j f_j$. 
+The algorithm provides a factor-$f$ approximation for SET COVER.\\
+
+
+
+{\bf Algorithm}
+\begin{enumerate}
+
+\item Solve the LP-relaxation (using your favorite polynomial-time LP solver).
+
+\item 
+For any variable $x_{i}\geq \frac{1}{f}$ in the solution of the 
+LP-relaxation computed in step 1,
+round $x_{i}$ to 1. 
+Round all other $x_{i}$s down to 0.
+\end{enumerate}
+\vspace{7mm}
+\par
+LEMMA:\\
+The above algorithm produces a feasible solution for SET COVER. \\
+
+PROOF:\\
+Note that for each element $j = 1, 2, \ldots, n$, the constraint
+\[\sum_{i:j\in S_{i}}x_{i} \ge 1\] 
+contains $f_j$ terms (one term for every set $j$ belongs to).
+Therefore, the maximum number of terms in any such constraint is $f$.
+This implies that for each such constraint, there is a variable $x_i$,
+$j \in S_i$, such that $x_i \ge 1/f_j \ge 1/f$.
+This implies that $x_i$ is rounded to 1 by the above algorithm and hence the inequality continues to be satisfied even after the rounding step,implying feasibility.\\\\
+
+
+LEMMA:\\
+The cost of the solution produced by the above algorithm 
+is at most $f \cdot OPT$.\\
+
+
+PROOF:\\
+First note that if $C^{*}$ is the optimal cost of the solution to the LP-relaxation, then
+\[ C^{*} \; \leq \; OPT\]
+This follows from the fact that the feasible region of the LP-relaxation 
+contains everything that is feasible for original SET COVER IP.
+
+Let $C$ be the cost of the solution produced by our algorithm. 
+Let $x = (x_1, x_2, \ldots, x_n)$ denote an optimal solution of the 
+LP-relaxation and
+let $x' = (x_1', x_2', \ldots, x_n')$ denote the solution after rounding.
+Now
+\[C=\sum_{i=1}^{k} c(S_{i})\cdot x'_{i}.\]
+Also note that
+\[x'_{i} \leq f\cdot x_{i}.\]
+This implies that
+$$C \leq f \; \sum_{i=1}^{k} c(S_{i})\cdot x_{i} 
+=f\cdot C^{*}
+\leq f\cdot OPT.$$\\ 
+
+ How good is this algorithm?: \\
+\begin {enumerate}
+\item It yields a factor-2 approximation algorithm for Vertex Cover.
+\end {enumerate}
+\end{document}
